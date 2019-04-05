@@ -1,0 +1,2164 @@
+State 0 conflicts: 1 reduce/reduce
+State 8 conflicts: 1 reduce/reduce
+State 13 conflicts: 1 reduce/reduce
+State 24 conflicts: 1 reduce/reduce
+State 44 conflicts: 1 shift/reduce
+State 72 conflicts: 1 shift/reduce
+State 85 conflicts: 3 reduce/reduce
+State 92 conflicts: 1 reduce/reduce
+State 129 conflicts: 1 reduce/reduce
+State 134 conflicts: 1 reduce/reduce
+State 155 conflicts: 1 reduce/reduce
+State 167 conflicts: 1 reduce/reduce
+State 168 conflicts: 3 reduce/reduce
+
+
+Grammar
+
+    0 $accept: s $end
+
+    1 s: block DOLLAR
+
+    2 block: chunk
+
+    3 chunk: star_stat last_stat_opt
+    4      | %empty
+
+    5 star_stat: star_stat stat opt_semicolon
+    6          | %empty
+
+    7 last_stat_opt: last_stat opt_semicolon
+    8              | %empty
+
+    9 opt_semicolon: SEMICOLON
+   10              | %empty
+
+   11 stat: var_list EQUALS exp_list
+   12     | function_call
+   13     | DO block END
+   14     | WHILE exp DO block END
+   15     | REPEAT block UNTIL exp
+   16     | IF exp THEN block elseif_star else_opt END
+   17     | FOR ID EQUALS exp COMMA exp comma_exp_opt DO block END
+   18     | FOR name_list IN exp_list DO block END
+   19     | FUNCTION func_name func_body
+   20     | LOCAL FUNCTION ID func_body
+   21     | LOCAL name_list opt_equals
+
+   22 comma_exp_opt: COMMA exp
+   23              | %empty
+
+   24 elseif_star: elseif_star ELSEIF exp THEN block
+   25            | %empty
+
+   26 else_opt: ELSE block
+   27         | %empty
+
+   28 opt_equals: EQUALS exp_list
+   29           | %empty
+
+   30 last_stat: RETURN exp_list_opt
+   31          | BREAK
+
+   32 exp_list_opt: exp_list
+   33             | %empty
+
+   34 func_name: ID dot_id_star colon_id_opt
+
+   35 dot_id_star: dot_id_star DOT ID
+   36            | %empty
+
+   37 colon_id_opt: COLON ID
+   38             | %empty
+
+   39 var_list: var var_star
+
+   40 var_star: var_star COMMA var
+   41         | %empty
+
+   42 var: ID
+   43    | prefix_exp LSB exp RSB
+   44    | prefix_exp DOT ID
+
+   45 name_list: ID comma_id_star
+
+   46 comma_id_star: comma_id_star COMMA ID
+   47              | %empty
+
+   48 exp_list: exp_comma_star exp
+
+   49 exp_comma_star: exp_comma_star exp COMMA
+   50               | %empty
+
+   51 exp: NIL
+   52    | FALSE
+   53    | TRUE
+   54    | NUM
+   55    | STRING
+   56    | VARDOT
+   57    | func
+   58    | prefix_exp
+   59    | table_const
+   60    | LB exp BINOP exp RB
+   61    | LB exp OR exp RB
+   62    | LB exp AND exp RB
+   63    | unop exp
+
+   64 prefix_exp: var
+   65           | function_call
+   66           | LB exp RB
+
+   67 function_call: prefix_exp args
+   68              | prefix_exp COLON ID args
+
+   69 args: LB exp_list_opt RB
+   70     | STRING
+   71     | table_const
+
+   72 func: FUNCTION func_body
+
+   73 func_body: LB par_list_opt RB block END
+
+   74 par_list_opt: par_list
+   75             | %empty
+
+   76 par_list: name_list comma_vardot_o
+   77         | VARDOT
+
+   78 comma_vardot_o: COMMA VARDOT
+   79               | %empty
+
+   80 table_const: LFB field_list_opt RFB
+
+   81 field_list_opt: field_list
+   82               | %empty
+
+   83 field_list: field f_sep_f_star field_sep_op
+
+   84 f_sep_f_star: f_sep_f_star field_sep field
+   85             | %empty
+
+   86 field_sep_op: field_sep
+   87             | %empty
+
+   88 field: LSB exp RSB EQUALS exp
+   89      | ID EQUALS exp
+   90      | exp
+
+   91 field_sep: COMMA
+   92          | SEMICOLON
+
+   93 unop: MINUS
+   94     | NOT
+   95     | HASH
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+AND (258) 62
+BREAK (259) 31
+DO (260) 13 14 17 18
+ELSE (261) 26
+ELSEIF (262) 24
+END (263) 13 14 16 17 18 73
+FALSE (264) 52
+FOR (265) 17 18
+FUNCTION (266) 19 20 72
+IF (267) 16
+IN (268) 18
+LOCAL (269) 20 21
+NIL (270) 51
+NOT (271) 94
+OR (272) 61
+REPEAT (273) 15
+RETURN (274) 30
+THEN (275) 16 24
+TRUE (276) 53
+UNTIL (277) 15
+WHILE (278) 14
+HASH (279) 95
+BINOP (280) 60
+EQUALS (281) 11 17 28 88 89
+MINUS (282) 93
+LB (283) 60 61 62 66 69 73
+RB (284) 60 61 62 66 69 73
+LFB (285) 80
+RFB (286) 80
+LSB (287) 43 88
+RSB (288) 43 88
+SEMICOLON (289) 9 92
+COMMA (290) 17 22 40 46 49 78 91
+COLON (291) 37 68
+DOT (292) 35 44
+VARDOT (293) 56 77 78
+ID (294) 17 20 34 35 37 42 44 45 46 68 89
+NUM (295) 54
+STRING (296) 55 70
+DOLLAR (297) 1
+
+
+Nonterminals, with rules where they appear
+
+$accept (43)
+    on left: 0
+s (44)
+    on left: 1, on right: 0
+block (45)
+    on left: 2, on right: 1 13 14 15 16 17 18 24 26 73
+chunk (46)
+    on left: 3 4, on right: 2
+star_stat (47)
+    on left: 5 6, on right: 3 5
+last_stat_opt (48)
+    on left: 7 8, on right: 3
+opt_semicolon (49)
+    on left: 9 10, on right: 5 7
+stat (50)
+    on left: 11 12 13 14 15 16 17 18 19 20 21, on right: 5
+comma_exp_opt (51)
+    on left: 22 23, on right: 17
+elseif_star (52)
+    on left: 24 25, on right: 16 24
+else_opt (53)
+    on left: 26 27, on right: 16
+opt_equals (54)
+    on left: 28 29, on right: 21
+last_stat (55)
+    on left: 30 31, on right: 7
+exp_list_opt (56)
+    on left: 32 33, on right: 30 69
+func_name (57)
+    on left: 34, on right: 19
+dot_id_star (58)
+    on left: 35 36, on right: 34 35
+colon_id_opt (59)
+    on left: 37 38, on right: 34
+var_list (60)
+    on left: 39, on right: 11
+var_star (61)
+    on left: 40 41, on right: 39 40
+var (62)
+    on left: 42 43 44, on right: 39 40 64
+name_list (63)
+    on left: 45, on right: 18 21 76
+comma_id_star (64)
+    on left: 46 47, on right: 45 46
+exp_list (65)
+    on left: 48, on right: 11 18 28 32
+exp_comma_star (66)
+    on left: 49 50, on right: 48 49
+exp (67)
+    on left: 51 52 53 54 55 56 57 58 59 60 61 62 63, on right: 14 15
+    16 17 22 24 43 48 49 60 61 62 63 66 88 89 90
+prefix_exp (68)
+    on left: 64 65 66, on right: 43 44 58 67 68
+function_call (69)
+    on left: 67 68, on right: 12 65
+args (70)
+    on left: 69 70 71, on right: 67 68
+func (71)
+    on left: 72, on right: 57
+func_body (72)
+    on left: 73, on right: 19 20 72
+par_list_opt (73)
+    on left: 74 75, on right: 73
+par_list (74)
+    on left: 76 77, on right: 74
+comma_vardot_o (75)
+    on left: 78 79, on right: 76
+table_const (76)
+    on left: 80, on right: 59 71
+field_list_opt (77)
+    on left: 81 82, on right: 80
+field_list (78)
+    on left: 83, on right: 81
+f_sep_f_star (79)
+    on left: 84 85, on right: 83 84
+field_sep_op (80)
+    on left: 86 87, on right: 83
+field (81)
+    on left: 88 89 90, on right: 83 84
+field_sep (82)
+    on left: 91 92, on right: 84 86
+unop (83)
+    on left: 93 94 95, on right: 63
+
+
+State 0
+
+    0 $accept: . s $end
+
+    DOLLAR    reduce using rule 4 (chunk)
+    DOLLAR    [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    s          go to state 1
+    block      go to state 2
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 1
+
+    0 $accept: s . $end
+
+    $end  shift, and go to state 5
+
+
+State 2
+
+    1 s: block . DOLLAR
+
+    DOLLAR  shift, and go to state 6
+
+
+State 3
+
+    2 block: chunk .
+
+    $default  reduce using rule 2 (block)
+
+
+State 4
+
+    3 chunk: star_stat . last_stat_opt
+    5 star_stat: star_stat . stat opt_semicolon
+
+    BREAK     shift, and go to state 7
+    DO        shift, and go to state 8
+    FOR       shift, and go to state 9
+    FUNCTION  shift, and go to state 10
+    IF        shift, and go to state 11
+    LOCAL     shift, and go to state 12
+    REPEAT    shift, and go to state 13
+    RETURN    shift, and go to state 14
+    WHILE     shift, and go to state 15
+    LB        shift, and go to state 16
+    ID        shift, and go to state 17
+
+    $default  reduce using rule 8 (last_stat_opt)
+
+    last_stat_opt  go to state 18
+    stat           go to state 19
+    last_stat      go to state 20
+    var_list       go to state 21
+    var            go to state 22
+    prefix_exp     go to state 23
+    function_call  go to state 24
+
+
+State 5
+
+    0 $accept: s $end .
+
+    $default  accept
+
+
+State 6
+
+    1 s: block DOLLAR .
+
+    $default  reduce using rule 1 (s)
+
+
+State 7
+
+   31 last_stat: BREAK .
+
+    $default  reduce using rule 31 (last_stat)
+
+
+State 8
+
+   13 stat: DO . block END
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 25
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 9
+
+   17 stat: FOR . ID EQUALS exp COMMA exp comma_exp_opt DO block END
+   18     | FOR . name_list IN exp_list DO block END
+
+    ID  shift, and go to state 26
+
+    name_list  go to state 27
+
+
+State 10
+
+   19 stat: FUNCTION . func_name func_body
+
+    ID  shift, and go to state 28
+
+    func_name  go to state 29
+
+
+State 11
+
+   16 stat: IF . exp THEN block elseif_star else_opt END
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 43
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 12
+
+   20 stat: LOCAL . FUNCTION ID func_body
+   21     | LOCAL . name_list opt_equals
+
+    FUNCTION  shift, and go to state 49
+    ID        shift, and go to state 50
+
+    name_list  go to state 51
+
+
+State 13
+
+   15 stat: REPEAT . block UNTIL exp
+
+    UNTIL     reduce using rule 4 (chunk)
+    UNTIL     [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 52
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 14
+
+   30 last_stat: RETURN . exp_list_opt
+
+    ELSE       reduce using rule 33 (exp_list_opt)
+    ELSEIF     reduce using rule 33 (exp_list_opt)
+    END        reduce using rule 33 (exp_list_opt)
+    UNTIL      reduce using rule 33 (exp_list_opt)
+    SEMICOLON  reduce using rule 33 (exp_list_opt)
+    DOLLAR     reduce using rule 33 (exp_list_opt)
+    $default   reduce using rule 50 (exp_comma_star)
+
+    exp_list_opt    go to state 53
+    exp_list        go to state 54
+    exp_comma_star  go to state 55
+
+
+State 15
+
+   14 stat: WHILE . exp DO block END
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 56
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 16
+
+   66 prefix_exp: LB . exp RB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 57
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 17
+
+   42 var: ID .
+
+    $default  reduce using rule 42 (var)
+
+
+State 18
+
+    3 chunk: star_stat last_stat_opt .
+
+    $default  reduce using rule 3 (chunk)
+
+
+State 19
+
+    5 star_stat: star_stat stat . opt_semicolon
+
+    SEMICOLON  shift, and go to state 58
+
+    $default  reduce using rule 10 (opt_semicolon)
+
+    opt_semicolon  go to state 59
+
+
+State 20
+
+    7 last_stat_opt: last_stat . opt_semicolon
+
+    SEMICOLON  shift, and go to state 58
+
+    $default  reduce using rule 10 (opt_semicolon)
+
+    opt_semicolon  go to state 60
+
+
+State 21
+
+   11 stat: var_list . EQUALS exp_list
+
+    EQUALS  shift, and go to state 61
+
+
+State 22
+
+   39 var_list: var . var_star
+   64 prefix_exp: var .
+
+    EQUALS    reduce using rule 41 (var_star)
+    COMMA     reduce using rule 41 (var_star)
+    $default  reduce using rule 64 (prefix_exp)
+
+    var_star  go to state 62
+
+
+State 23
+
+   43 var: prefix_exp . LSB exp RSB
+   44    | prefix_exp . DOT ID
+   67 function_call: prefix_exp . args
+   68              | prefix_exp . COLON ID args
+
+    LB      shift, and go to state 63
+    LFB     shift, and go to state 38
+    LSB     shift, and go to state 64
+    COLON   shift, and go to state 65
+    DOT     shift, and go to state 66
+    STRING  shift, and go to state 67
+
+    args         go to state 68
+    table_const  go to state 69
+
+
+State 24
+
+   12 stat: function_call .
+   65 prefix_exp: function_call .
+
+    LB        reduce using rule 12 (stat)
+    LB        [reduce using rule 65 (prefix_exp)]
+    LFB       reduce using rule 65 (prefix_exp)
+    LSB       reduce using rule 65 (prefix_exp)
+    COLON     reduce using rule 65 (prefix_exp)
+    DOT       reduce using rule 65 (prefix_exp)
+    STRING    reduce using rule 65 (prefix_exp)
+    $default  reduce using rule 12 (stat)
+
+
+State 25
+
+   13 stat: DO block . END
+
+    END  shift, and go to state 70
+
+
+State 26
+
+   17 stat: FOR ID . EQUALS exp COMMA exp comma_exp_opt DO block END
+   45 name_list: ID . comma_id_star
+
+    EQUALS  shift, and go to state 71
+
+    $default  reduce using rule 47 (comma_id_star)
+
+    comma_id_star  go to state 72
+
+
+State 27
+
+   18 stat: FOR name_list . IN exp_list DO block END
+
+    IN  shift, and go to state 73
+
+
+State 28
+
+   34 func_name: ID . dot_id_star colon_id_opt
+
+    $default  reduce using rule 36 (dot_id_star)
+
+    dot_id_star  go to state 74
+
+
+State 29
+
+   19 stat: FUNCTION func_name . func_body
+
+    LB  shift, and go to state 75
+
+    func_body  go to state 76
+
+
+State 30
+
+   52 exp: FALSE .
+
+    $default  reduce using rule 52 (exp)
+
+
+State 31
+
+   72 func: FUNCTION . func_body
+
+    LB  shift, and go to state 75
+
+    func_body  go to state 77
+
+
+State 32
+
+   51 exp: NIL .
+
+    $default  reduce using rule 51 (exp)
+
+
+State 33
+
+   94 unop: NOT .
+
+    $default  reduce using rule 94 (unop)
+
+
+State 34
+
+   53 exp: TRUE .
+
+    $default  reduce using rule 53 (exp)
+
+
+State 35
+
+   95 unop: HASH .
+
+    $default  reduce using rule 95 (unop)
+
+
+State 36
+
+   93 unop: MINUS .
+
+    $default  reduce using rule 93 (unop)
+
+
+State 37
+
+   60 exp: LB . exp BINOP exp RB
+   61    | LB . exp OR exp RB
+   62    | LB . exp AND exp RB
+   66 prefix_exp: LB . exp RB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 78
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 38
+
+   80 table_const: LFB . field_list_opt RFB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    LSB       shift, and go to state 79
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 80
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    $default  reduce using rule 82 (field_list_opt)
+
+    var             go to state 42
+    exp             go to state 81
+    prefix_exp      go to state 44
+    function_call   go to state 45
+    func            go to state 46
+    table_const     go to state 47
+    field_list_opt  go to state 82
+    field_list      go to state 83
+    field           go to state 84
+    unop            go to state 48
+
+
+State 39
+
+   56 exp: VARDOT .
+
+    $default  reduce using rule 56 (exp)
+
+
+State 40
+
+   54 exp: NUM .
+
+    $default  reduce using rule 54 (exp)
+
+
+State 41
+
+   55 exp: STRING .
+
+    $default  reduce using rule 55 (exp)
+
+
+State 42
+
+   64 prefix_exp: var .
+
+    $default  reduce using rule 64 (prefix_exp)
+
+
+State 43
+
+   16 stat: IF exp . THEN block elseif_star else_opt END
+
+    THEN  shift, and go to state 85
+
+
+State 44
+
+   43 var: prefix_exp . LSB exp RSB
+   44    | prefix_exp . DOT ID
+   58 exp: prefix_exp .
+   67 function_call: prefix_exp . args
+   68              | prefix_exp . COLON ID args
+
+    LB      shift, and go to state 63
+    LFB     shift, and go to state 38
+    LSB     shift, and go to state 64
+    COLON   shift, and go to state 65
+    DOT     shift, and go to state 66
+    STRING  shift, and go to state 67
+
+    LB        [reduce using rule 58 (exp)]
+    $default  reduce using rule 58 (exp)
+
+    args         go to state 68
+    table_const  go to state 69
+
+
+State 45
+
+   65 prefix_exp: function_call .
+
+    $default  reduce using rule 65 (prefix_exp)
+
+
+State 46
+
+   57 exp: func .
+
+    $default  reduce using rule 57 (exp)
+
+
+State 47
+
+   59 exp: table_const .
+
+    $default  reduce using rule 59 (exp)
+
+
+State 48
+
+   63 exp: unop . exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 86
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 49
+
+   20 stat: LOCAL FUNCTION . ID func_body
+
+    ID  shift, and go to state 87
+
+
+State 50
+
+   45 name_list: ID . comma_id_star
+
+    $default  reduce using rule 47 (comma_id_star)
+
+    comma_id_star  go to state 72
+
+
+State 51
+
+   21 stat: LOCAL name_list . opt_equals
+
+    EQUALS  shift, and go to state 88
+
+    $default  reduce using rule 29 (opt_equals)
+
+    opt_equals  go to state 89
+
+
+State 52
+
+   15 stat: REPEAT block . UNTIL exp
+
+    UNTIL  shift, and go to state 90
+
+
+State 53
+
+   30 last_stat: RETURN exp_list_opt .
+
+    $default  reduce using rule 30 (last_stat)
+
+
+State 54
+
+   32 exp_list_opt: exp_list .
+
+    $default  reduce using rule 32 (exp_list_opt)
+
+
+State 55
+
+   48 exp_list: exp_comma_star . exp
+   49 exp_comma_star: exp_comma_star . exp COMMA
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 91
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 56
+
+   14 stat: WHILE exp . DO block END
+
+    DO  shift, and go to state 92
+
+
+State 57
+
+   66 prefix_exp: LB exp . RB
+
+    RB  shift, and go to state 93
+
+
+State 58
+
+    9 opt_semicolon: SEMICOLON .
+
+    $default  reduce using rule 9 (opt_semicolon)
+
+
+State 59
+
+    5 star_stat: star_stat stat opt_semicolon .
+
+    $default  reduce using rule 5 (star_stat)
+
+
+State 60
+
+    7 last_stat_opt: last_stat opt_semicolon .
+
+    $default  reduce using rule 7 (last_stat_opt)
+
+
+State 61
+
+   11 stat: var_list EQUALS . exp_list
+
+    $default  reduce using rule 50 (exp_comma_star)
+
+    exp_list        go to state 94
+    exp_comma_star  go to state 55
+
+
+State 62
+
+   39 var_list: var var_star .
+   40 var_star: var_star . COMMA var
+
+    COMMA  shift, and go to state 95
+
+    $default  reduce using rule 39 (var_list)
+
+
+State 63
+
+   69 args: LB . exp_list_opt RB
+
+    RB        reduce using rule 33 (exp_list_opt)
+    $default  reduce using rule 50 (exp_comma_star)
+
+    exp_list_opt    go to state 96
+    exp_list        go to state 54
+    exp_comma_star  go to state 55
+
+
+State 64
+
+   43 var: prefix_exp LSB . exp RSB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 97
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 65
+
+   68 function_call: prefix_exp COLON . ID args
+
+    ID  shift, and go to state 98
+
+
+State 66
+
+   44 var: prefix_exp DOT . ID
+
+    ID  shift, and go to state 99
+
+
+State 67
+
+   70 args: STRING .
+
+    $default  reduce using rule 70 (args)
+
+
+State 68
+
+   67 function_call: prefix_exp args .
+
+    $default  reduce using rule 67 (function_call)
+
+
+State 69
+
+   71 args: table_const .
+
+    $default  reduce using rule 71 (args)
+
+
+State 70
+
+   13 stat: DO block END .
+
+    $default  reduce using rule 13 (stat)
+
+
+State 71
+
+   17 stat: FOR ID EQUALS . exp COMMA exp comma_exp_opt DO block END
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 100
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 72
+
+   45 name_list: ID comma_id_star .
+   46 comma_id_star: comma_id_star . COMMA ID
+
+    COMMA  shift, and go to state 101
+
+    COMMA     [reduce using rule 45 (name_list)]
+    $default  reduce using rule 45 (name_list)
+
+
+State 73
+
+   18 stat: FOR name_list IN . exp_list DO block END
+
+    $default  reduce using rule 50 (exp_comma_star)
+
+    exp_list        go to state 102
+    exp_comma_star  go to state 55
+
+
+State 74
+
+   34 func_name: ID dot_id_star . colon_id_opt
+   35 dot_id_star: dot_id_star . DOT ID
+
+    COLON  shift, and go to state 103
+    DOT    shift, and go to state 104
+
+    $default  reduce using rule 38 (colon_id_opt)
+
+    colon_id_opt  go to state 105
+
+
+State 75
+
+   73 func_body: LB . par_list_opt RB block END
+
+    VARDOT  shift, and go to state 106
+    ID      shift, and go to state 50
+
+    $default  reduce using rule 75 (par_list_opt)
+
+    name_list     go to state 107
+    par_list_opt  go to state 108
+    par_list      go to state 109
+
+
+State 76
+
+   19 stat: FUNCTION func_name func_body .
+
+    $default  reduce using rule 19 (stat)
+
+
+State 77
+
+   72 func: FUNCTION func_body .
+
+    $default  reduce using rule 72 (func)
+
+
+State 78
+
+   60 exp: LB exp . BINOP exp RB
+   61    | LB exp . OR exp RB
+   62    | LB exp . AND exp RB
+   66 prefix_exp: LB exp . RB
+
+    AND    shift, and go to state 110
+    OR     shift, and go to state 111
+    BINOP  shift, and go to state 112
+    RB     shift, and go to state 93
+
+
+State 79
+
+   88 field: LSB . exp RSB EQUALS exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 113
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 80
+
+   42 var: ID .
+   89 field: ID . EQUALS exp
+
+    EQUALS  shift, and go to state 114
+
+    $default  reduce using rule 42 (var)
+
+
+State 81
+
+   90 field: exp .
+
+    $default  reduce using rule 90 (field)
+
+
+State 82
+
+   80 table_const: LFB field_list_opt . RFB
+
+    RFB  shift, and go to state 115
+
+
+State 83
+
+   81 field_list_opt: field_list .
+
+    $default  reduce using rule 81 (field_list_opt)
+
+
+State 84
+
+   83 field_list: field . f_sep_f_star field_sep_op
+
+    $default  reduce using rule 85 (f_sep_f_star)
+
+    f_sep_f_star  go to state 116
+
+
+State 85
+
+   16 stat: IF exp THEN . block elseif_star else_opt END
+
+    ELSE      reduce using rule 4 (chunk)
+    ELSE      [reduce using rule 6 (star_stat)]
+    ELSEIF    reduce using rule 4 (chunk)
+    ELSEIF    [reduce using rule 6 (star_stat)]
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 117
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 86
+
+   63 exp: unop exp .
+
+    $default  reduce using rule 63 (exp)
+
+
+State 87
+
+   20 stat: LOCAL FUNCTION ID . func_body
+
+    LB  shift, and go to state 75
+
+    func_body  go to state 118
+
+
+State 88
+
+   28 opt_equals: EQUALS . exp_list
+
+    $default  reduce using rule 50 (exp_comma_star)
+
+    exp_list        go to state 119
+    exp_comma_star  go to state 55
+
+
+State 89
+
+   21 stat: LOCAL name_list opt_equals .
+
+    $default  reduce using rule 21 (stat)
+
+
+State 90
+
+   15 stat: REPEAT block UNTIL . exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 120
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 91
+
+   48 exp_list: exp_comma_star exp .
+   49 exp_comma_star: exp_comma_star exp . COMMA
+
+    COMMA  shift, and go to state 121
+
+    $default  reduce using rule 48 (exp_list)
+
+
+State 92
+
+   14 stat: WHILE exp DO . block END
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 122
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 93
+
+   66 prefix_exp: LB exp RB .
+
+    $default  reduce using rule 66 (prefix_exp)
+
+
+State 94
+
+   11 stat: var_list EQUALS exp_list .
+
+    $default  reduce using rule 11 (stat)
+
+
+State 95
+
+   40 var_star: var_star COMMA . var
+
+    LB  shift, and go to state 16
+    ID  shift, and go to state 17
+
+    var            go to state 123
+    prefix_exp     go to state 23
+    function_call  go to state 45
+
+
+State 96
+
+   69 args: LB exp_list_opt . RB
+
+    RB  shift, and go to state 124
+
+
+State 97
+
+   43 var: prefix_exp LSB exp . RSB
+
+    RSB  shift, and go to state 125
+
+
+State 98
+
+   68 function_call: prefix_exp COLON ID . args
+
+    LB      shift, and go to state 63
+    LFB     shift, and go to state 38
+    STRING  shift, and go to state 67
+
+    args         go to state 126
+    table_const  go to state 69
+
+
+State 99
+
+   44 var: prefix_exp DOT ID .
+
+    $default  reduce using rule 44 (var)
+
+
+State 100
+
+   17 stat: FOR ID EQUALS exp . COMMA exp comma_exp_opt DO block END
+
+    COMMA  shift, and go to state 127
+
+
+State 101
+
+   46 comma_id_star: comma_id_star COMMA . ID
+
+    ID  shift, and go to state 128
+
+
+State 102
+
+   18 stat: FOR name_list IN exp_list . DO block END
+
+    DO  shift, and go to state 129
+
+
+State 103
+
+   37 colon_id_opt: COLON . ID
+
+    ID  shift, and go to state 130
+
+
+State 104
+
+   35 dot_id_star: dot_id_star DOT . ID
+
+    ID  shift, and go to state 131
+
+
+State 105
+
+   34 func_name: ID dot_id_star colon_id_opt .
+
+    $default  reduce using rule 34 (func_name)
+
+
+State 106
+
+   77 par_list: VARDOT .
+
+    $default  reduce using rule 77 (par_list)
+
+
+State 107
+
+   76 par_list: name_list . comma_vardot_o
+
+    COMMA  shift, and go to state 132
+
+    $default  reduce using rule 79 (comma_vardot_o)
+
+    comma_vardot_o  go to state 133
+
+
+State 108
+
+   73 func_body: LB par_list_opt . RB block END
+
+    RB  shift, and go to state 134
+
+
+State 109
+
+   74 par_list_opt: par_list .
+
+    $default  reduce using rule 74 (par_list_opt)
+
+
+State 110
+
+   62 exp: LB exp AND . exp RB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 135
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 111
+
+   61 exp: LB exp OR . exp RB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 136
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 112
+
+   60 exp: LB exp BINOP . exp RB
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 137
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 113
+
+   88 field: LSB exp . RSB EQUALS exp
+
+    RSB  shift, and go to state 138
+
+
+State 114
+
+   89 field: ID EQUALS . exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 139
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 115
+
+   80 table_const: LFB field_list_opt RFB .
+
+    $default  reduce using rule 80 (table_const)
+
+
+State 116
+
+   83 field_list: field f_sep_f_star . field_sep_op
+   84 f_sep_f_star: f_sep_f_star . field_sep field
+
+    SEMICOLON  shift, and go to state 140
+    COMMA      shift, and go to state 141
+
+    $default  reduce using rule 87 (field_sep_op)
+
+    field_sep_op  go to state 142
+    field_sep     go to state 143
+
+
+State 117
+
+   16 stat: IF exp THEN block . elseif_star else_opt END
+
+    $default  reduce using rule 25 (elseif_star)
+
+    elseif_star  go to state 144
+
+
+State 118
+
+   20 stat: LOCAL FUNCTION ID func_body .
+
+    $default  reduce using rule 20 (stat)
+
+
+State 119
+
+   28 opt_equals: EQUALS exp_list .
+
+    $default  reduce using rule 28 (opt_equals)
+
+
+State 120
+
+   15 stat: REPEAT block UNTIL exp .
+
+    $default  reduce using rule 15 (stat)
+
+
+State 121
+
+   49 exp_comma_star: exp_comma_star exp COMMA .
+
+    $default  reduce using rule 49 (exp_comma_star)
+
+
+State 122
+
+   14 stat: WHILE exp DO block . END
+
+    END  shift, and go to state 145
+
+
+State 123
+
+   40 var_star: var_star COMMA var .
+   64 prefix_exp: var .
+
+    EQUALS    reduce using rule 40 (var_star)
+    COMMA     reduce using rule 40 (var_star)
+    $default  reduce using rule 64 (prefix_exp)
+
+
+State 124
+
+   69 args: LB exp_list_opt RB .
+
+    $default  reduce using rule 69 (args)
+
+
+State 125
+
+   43 var: prefix_exp LSB exp RSB .
+
+    $default  reduce using rule 43 (var)
+
+
+State 126
+
+   68 function_call: prefix_exp COLON ID args .
+
+    $default  reduce using rule 68 (function_call)
+
+
+State 127
+
+   17 stat: FOR ID EQUALS exp COMMA . exp comma_exp_opt DO block END
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 146
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 128
+
+   46 comma_id_star: comma_id_star COMMA ID .
+
+    $default  reduce using rule 46 (comma_id_star)
+
+
+State 129
+
+   18 stat: FOR name_list IN exp_list DO . block END
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 147
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 130
+
+   37 colon_id_opt: COLON ID .
+
+    $default  reduce using rule 37 (colon_id_opt)
+
+
+State 131
+
+   35 dot_id_star: dot_id_star DOT ID .
+
+    $default  reduce using rule 35 (dot_id_star)
+
+
+State 132
+
+   78 comma_vardot_o: COMMA . VARDOT
+
+    VARDOT  shift, and go to state 148
+
+
+State 133
+
+   76 par_list: name_list comma_vardot_o .
+
+    $default  reduce using rule 76 (par_list)
+
+
+State 134
+
+   73 func_body: LB par_list_opt RB . block END
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 149
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 135
+
+   62 exp: LB exp AND exp . RB
+
+    RB  shift, and go to state 150
+
+
+State 136
+
+   61 exp: LB exp OR exp . RB
+
+    RB  shift, and go to state 151
+
+
+State 137
+
+   60 exp: LB exp BINOP exp . RB
+
+    RB  shift, and go to state 152
+
+
+State 138
+
+   88 field: LSB exp RSB . EQUALS exp
+
+    EQUALS  shift, and go to state 153
+
+
+State 139
+
+   89 field: ID EQUALS exp .
+
+    $default  reduce using rule 89 (field)
+
+
+State 140
+
+   92 field_sep: SEMICOLON .
+
+    $default  reduce using rule 92 (field_sep)
+
+
+State 141
+
+   91 field_sep: COMMA .
+
+    $default  reduce using rule 91 (field_sep)
+
+
+State 142
+
+   83 field_list: field f_sep_f_star field_sep_op .
+
+    $default  reduce using rule 83 (field_list)
+
+
+State 143
+
+   84 f_sep_f_star: f_sep_f_star field_sep . field
+   86 field_sep_op: field_sep .
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    LSB       shift, and go to state 79
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 80
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    $default  reduce using rule 86 (field_sep_op)
+
+    var            go to state 42
+    exp            go to state 81
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    field          go to state 154
+    unop           go to state 48
+
+
+State 144
+
+   16 stat: IF exp THEN block elseif_star . else_opt END
+   24 elseif_star: elseif_star . ELSEIF exp THEN block
+
+    ELSE    shift, and go to state 155
+    ELSEIF  shift, and go to state 156
+
+    $default  reduce using rule 27 (else_opt)
+
+    else_opt  go to state 157
+
+
+State 145
+
+   14 stat: WHILE exp DO block END .
+
+    $default  reduce using rule 14 (stat)
+
+
+State 146
+
+   17 stat: FOR ID EQUALS exp COMMA exp . comma_exp_opt DO block END
+
+    COMMA  shift, and go to state 158
+
+    $default  reduce using rule 23 (comma_exp_opt)
+
+    comma_exp_opt  go to state 159
+
+
+State 147
+
+   18 stat: FOR name_list IN exp_list DO block . END
+
+    END  shift, and go to state 160
+
+
+State 148
+
+   78 comma_vardot_o: COMMA VARDOT .
+
+    $default  reduce using rule 78 (comma_vardot_o)
+
+
+State 149
+
+   73 func_body: LB par_list_opt RB block . END
+
+    END  shift, and go to state 161
+
+
+State 150
+
+   62 exp: LB exp AND exp RB .
+
+    $default  reduce using rule 62 (exp)
+
+
+State 151
+
+   61 exp: LB exp OR exp RB .
+
+    $default  reduce using rule 61 (exp)
+
+
+State 152
+
+   60 exp: LB exp BINOP exp RB .
+
+    $default  reduce using rule 60 (exp)
+
+
+State 153
+
+   88 field: LSB exp RSB EQUALS . exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 162
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 154
+
+   84 f_sep_f_star: f_sep_f_star field_sep field .
+
+    $default  reduce using rule 84 (f_sep_f_star)
+
+
+State 155
+
+   26 else_opt: ELSE . block
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 163
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 156
+
+   24 elseif_star: elseif_star ELSEIF . exp THEN block
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 164
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 157
+
+   16 stat: IF exp THEN block elseif_star else_opt . END
+
+    END  shift, and go to state 165
+
+
+State 158
+
+   22 comma_exp_opt: COMMA . exp
+
+    FALSE     shift, and go to state 30
+    FUNCTION  shift, and go to state 31
+    NIL       shift, and go to state 32
+    NOT       shift, and go to state 33
+    TRUE      shift, and go to state 34
+    HASH      shift, and go to state 35
+    MINUS     shift, and go to state 36
+    LB        shift, and go to state 37
+    LFB       shift, and go to state 38
+    VARDOT    shift, and go to state 39
+    ID        shift, and go to state 17
+    NUM       shift, and go to state 40
+    STRING    shift, and go to state 41
+
+    var            go to state 42
+    exp            go to state 166
+    prefix_exp     go to state 44
+    function_call  go to state 45
+    func           go to state 46
+    table_const    go to state 47
+    unop           go to state 48
+
+
+State 159
+
+   17 stat: FOR ID EQUALS exp COMMA exp comma_exp_opt . DO block END
+
+    DO  shift, and go to state 167
+
+
+State 160
+
+   18 stat: FOR name_list IN exp_list DO block END .
+
+    $default  reduce using rule 18 (stat)
+
+
+State 161
+
+   73 func_body: LB par_list_opt RB block END .
+
+    $default  reduce using rule 73 (func_body)
+
+
+State 162
+
+   88 field: LSB exp RSB EQUALS exp .
+
+    $default  reduce using rule 88 (field)
+
+
+State 163
+
+   26 else_opt: ELSE block .
+
+    $default  reduce using rule 26 (else_opt)
+
+
+State 164
+
+   24 elseif_star: elseif_star ELSEIF exp . THEN block
+
+    THEN  shift, and go to state 168
+
+
+State 165
+
+   16 stat: IF exp THEN block elseif_star else_opt END .
+
+    $default  reduce using rule 16 (stat)
+
+
+State 166
+
+   22 comma_exp_opt: COMMA exp .
+
+    $default  reduce using rule 22 (comma_exp_opt)
+
+
+State 167
+
+   17 stat: FOR ID EQUALS exp COMMA exp comma_exp_opt DO . block END
+
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 169
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 168
+
+   24 elseif_star: elseif_star ELSEIF exp THEN . block
+
+    ELSE      reduce using rule 4 (chunk)
+    ELSE      [reduce using rule 6 (star_stat)]
+    ELSEIF    reduce using rule 4 (chunk)
+    ELSEIF    [reduce using rule 6 (star_stat)]
+    END       reduce using rule 4 (chunk)
+    END       [reduce using rule 6 (star_stat)]
+    $default  reduce using rule 6 (star_stat)
+
+    block      go to state 170
+    chunk      go to state 3
+    star_stat  go to state 4
+
+
+State 169
+
+   17 stat: FOR ID EQUALS exp COMMA exp comma_exp_opt DO block . END
+
+    END  shift, and go to state 171
+
+
+State 170
+
+   24 elseif_star: elseif_star ELSEIF exp THEN block .
+
+    $default  reduce using rule 24 (elseif_star)
+
+
+State 171
+
+   17 stat: FOR ID EQUALS exp COMMA exp comma_exp_opt DO block END .
+
+    $default  reduce using rule 17 (stat)

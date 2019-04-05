@@ -1,0 +1,1972 @@
+function eraseTerminal ()
+  io.write("\27[2J")
+end
+
+
+-- writes an `*' at column `x' , row `y'
+function mark (x,y)
+  io.write(string.format("\27[%d;%dH*", y, x))
+end
+
+
+-- Terminal size
+TermSize = {w = 80, h = 24}
+
+
+-- plot a function
+-- (assume that domain and image are in the range [-1,1])
+function plot (f)
+  eraseTerminal()
+  for i=1,TermSize.w do
+     local x = ((((i/TermSize.w))*2) + -1)
+     local y = ((((f(x) + 1))/2) * TermSize.h)
+     mark(i, y)
+  end
+  io.read()  -- wait before spoiling the screen
+end
+
+
+-- example
+plot(function (x) return math.sin(((x*2)*math.pi)) end)
+
+function insert (index, value)
+      if not statetab[index] then
+        statetab[index] = {value}
+      else
+        table.insert(statetab[index], value)
+      end
+    end
+
+function allwords ()
+      local line = io.read()    -- current line
+      local pos = 1             -- current position in the line
+      return function ()        -- iterator function
+        while line do           -- repeat while there are lines
+          local s, e = string.find(line, "w", pos)
+          if s then      -- found a word?
+            pos = (e + 1)  -- update next position
+            return string.sub(line, s, e)   -- return the word
+          else
+            line = io.read()    -- word not found; try next line
+            pos = 1             -- restart from first position
+          end
+        end
+        return nil            -- no more lines: end of traversal
+      end
+    end
+
+ 
+    function insert (index, value)
+      if not statetab[index] then
+        statetab[index] = { n = 0 }
+      end
+      table.insert(statetab[index], value)
+    end    
+    
+ function add (a)
+      local sum = 0
+      for i,v in ipairs(a) do
+        sum = (sum + v)
+      end
+      return sum
+    end
+
+function incCount (n)
+      n = (n or 1)
+      count = (count + n)
+    end
+
+function maximum (a)
+      local mi = 1          -- maximum index
+      local m = a[mi]       -- maximum value
+      for i,val in ipairs(a) do
+        if (val > m) then
+          mi = i
+          m = val
+        end
+      end
+      return m,mi
+    end
+    
+    print(maximum({8,10,23,12,5}))     --> 23   3
+
+
+function foo (i)
+      if (i == 0) then return foo0()
+      elseif (i == 2) then return foo2()
+      else return foo1()
+      end
+    end
+    
+    print(foo(1))     --> a
+    print(foo(2))     --> a  b
+    print(foo(0))     -- (no results)
+    print(foo(3))     -- (no results)
+
+    function unpack (t, i)
+      i = (i or 1)
+      if (t[i] ~= nil) then
+        return t[i], unpack(t, (i + 1))
+      end
+    end
+
+    function Window (options)
+      -- check mandatory options
+      if (type(options.title) ~= "string")then
+        error(asdf)
+      elseif (type(options.width) ~= "number") then
+        error(ags)
+      elseif (type(options.height) ~= "number" )then
+        error(adgadg)
+      end
+    
+      -- everything else is optional
+      _Window(options.title,
+              (options.x or 0),    -- default value
+              (options.y or 0),    -- default value
+              options.width, options.height,
+              (options.background or "white"),   -- default
+              options.border      -- default is false (nil)
+             )
+    end
+
+
+--Strings in functions does not work
+
+
+s, e = string.find("hello Lua users", 4, "ght" , 3 )
+    
+print(s, e)   -->  7      9
+print("1+1=2")
+
+
+for v = e1, e2, e3 do block=2 end
+
+
+print("1+1=2")
+print((1+1))
+print("(2 + -1)=1")
+print((2 + -1))
+print("11*11=121")
+print((11*11))
+print("(12/2)=6")
+print((12/2))
+print("15/4=3")
+print((15/4))
+print("23%5=3")
+print((23%5))
+
+
+msg="a test message"
+myint=123
+print(myint)
+print(msg)
+
+function plus_one(p)
+    return (p+1)
+end
+
+function minus_one(p)
+    return (p + -1)
+end
+
+i=0
+print(i)
+
+i=plus_one(i)
+print(i)
+i=plus_one(i)
+print(i)
+
+i=minus_one((i+2))
+print(i)
+i=minus_one((i+2))
+print(i)
+
+
+a=1
+if (a==1) then
+    print("correct")
+else
+    print("invalid")
+end
+
+if (a==2) then
+    print("invalid")
+else
+    print("correct")
+end
+
+if (a>2) then
+    print("invalid")
+else
+    print("correct")
+end
+
+if (2<a) then
+    print("invalid")
+else
+    print("correct")
+end
+
+if (a~=2) then
+    print("correct")
+else
+    print("invalid")
+end
+
+c="correct"
+print(c)
+
+print("Done")
+
+
+
+function recfunc(i)
+    if (i < 10) then
+        i = recfunc((i+1))
+    end
+    return i
+end
+
+a=0
+print(a)
+a = recfunc(a)
+print(a)
+
+io.write("1")
+io.write(",2,")
+io.write(3)
+io.write("\n")
+print("test text")
+print(10)
+
+
+
+
+a = 1
+
+if ( a == 1 )then
+    a = (1+1)
+end
+
+print("next")
+
+for a=1,2,3 do
+    print(a)
+end
+
+print("next")
+
+while (a == 1) do
+    print(a)
+    a = (a + 1)
+end
+
+print("next")
+
+-- Test case 1
+print((((13+(22 + -11))/1)*44))
+
+
+-- Test case 2
+x = 7
+y = (10+(x*2))
+z = (y + -x)
+print(z)
+
+
+
+-- Test case 3
+print "enter a number:"
+n = io.read("*number")
+factorial = 1
+x=1
+for i = 2,n do
+  x = (x * i)
+end
+io.write("factorial of ")
+io.write(n)
+io.write(" is ")
+print(x)
+
+
+
+
+-- Test case 4
+
+print "enter a number:"
+n = io.read("*number")
+for i = 2,n do
+  if((n%i) == 0) then
+    io.write(i)
+    io.write(" is a factor of ")
+    print(n)
+  end
+end
+
+
+
+-- Test case 5
+
+
+list = { 5, 6, 1, 2, 9, 14, 2, 15, 6, 7, 8, 97 }
+itemCount=#list
+repeat
+  hasChanged = false
+  itemCount= (itemCount + -1)
+  for i = 1, itemCount do
+    if (list[i] > list[(i + 1)]) then
+      list[i], list[(i + 1)] = list[(i + 1)], list[i]
+      hasChanged = true
+    end
+  end
+until (hasChanged == false)
+for i = 1,itemCount do
+  print (list[i])
+end
+
+
+
+-- Test case 5
+
+function fibonacci(n)
+    if (n<3) then
+        return 1
+    else
+        return (fibonacci((n + -1)) + fibonacci((n + -2)))
+    end
+end
+
+for n = 1, 16 do
+    print(fibonacci(n))
+end
+io.write("...\n")
+
+-- Misc
+local b=1
+c,d=54,3
+
+function test(a,b)
+	a=1
+	a2=2
+	a3=3
+	return
+end
+
+if (n==1) then
+  io.write("if1")
+elseif (n==2) then
+  io.write("if2")
+else
+  io.write("else")
+end
+
+
+for i = 1,n do
+  x = (x*i)
+end
+
+for i = 1,2,n do
+  x = (x*i)
+end
+
+local f = assert(io.open(arg[1], "rb"))
+local block = 10
+while true do
+  local bytes = f:read(block)
+  if not bytes then break end
+  for b in string.gfind(bytes, ".") do
+    io.write(string.format("%02X ", string.byte(b)))
+  end
+  io.write(string.rep("   ", ((block + string.len(bytes)) + 1)))
+  io.write(string.gsub(bytes, "%c", "."), "\n")
+end
+---------------------------
+local esc = {["<"] = "&lt;", [">"] = "&gt;", ["&"] = "&amp;"}
+
+local reserved = { ["and"] = true, ["break"] = true, ["do"] = true,
+  ["else"] = true, ["elseif"] = true, ["end"] = true, ["false"] = true,
+  ["for"] = true, ["function"] = true, ["if"] = true, ["in"] = true,
+  ["local"] = true, ["nil"] = true, ["not"] = true, ["or"] = true,
+  ["repeat"] = true, ["return"] = true, ["then"] = true, ["true"] = true,
+  ["until"] = true, ["while"] = true, }
+
+function trata (file)
+  io.input(file)
+  local a = io.read"*a"
+
+  a = string.gsub(a, "([<>&])", function (x)
+    return esc[x]
+  end)
+
+  a = string.gsub(a, "(%w+)", function (w)
+    if reserved[w] then
+      return (("<b>"..w).."</b>")
+    else return w
+    end
+  end)
+
+  io.output((file..".html"))
+
+io.close()
+end
+
+for _, v in pairs(arg) do
+  trata(v)
+end
+---------------------------
+function getfield (f)
+  local v = _G    -- start with the table of globals
+  for w in string.gfind(f, "[%w_]+") do
+    v = v[w]
+  end
+  return v
+end
+function setfield (f, v)
+  local t = _G            -- start with the table of globals
+  for w, d in string.gfind(f, "([%w_]+)(.?)") do
+    if (d == ".") then      -- not last field?
+      t[w] = (t[w] or {})   -- create table if absent
+      t = t[w]            -- get the table
+    else                  -- last field
+      t[w] = v            -- do the assignment
+    end
+  end
+end
+
+
+-- example
+setfield("t.x.y", 10)
+print(t.x.y)
+print(getfield("t.x.y"))
+
+
+
+-- Markov Chain Program in Lua
+
+function allwords ()
+  local line = io.read()    -- current line
+  local pos = 1             -- current position in the line
+  return function ()        -- iterator function
+    while line do           -- repeat while there are lines
+      local s, e = string.find(line, "%w+", pos)
+      if s then      -- found a word?
+        pos = (e + 1)  -- update next position
+        return string.sub(line, s, e)   -- return the word
+      else
+        line = io.read()    -- word not found; try next line
+        pos = 1             -- restart from first position
+      end
+    end
+    return nil            -- no more lines: end of traversal
+  end
+end
+
+function prefix (w1, w2)
+  return ((w1 .. " ") .. w2)
+end
+
+local statetab
+
+function insert (index, value)
+  if not statetab[index] then
+    statetab[index] = {n=0}
+  end
+  table.insert(statetab[index], value)
+end
+
+local N  = 2
+local MAXGEN = 10000
+local NOWORD = "\n"
+
+-- build table
+statetab = {}
+local w1, w2 = NOWORD, NOWORD
+for w in allwords() do
+  insert(prefix(w1, w2), w)
+  w1 = w2; w2 = w;
+end
+insert(prefix(w1, w2), NOWORD)
+
+
+-- generate text
+w1 = NOWORD; w2 = NOWORD     -- reinitialize
+for i=1,MAXGEN do
+  local list = statetab[prefix(w1, w2)]
+  -- choose a random item from list
+  local r = math.random(table.getn(list))
+  local nextword = list[r]
+  if (nextword == NOWORD) then return end
+  io.write(nextword, " ")
+  w1 = w2; w2 = nextword
+end
+
+require "luasocket"
+
+-- warning: depending on the version of luasocket that we use,
+-- we have to change `settimeout' to `timeout' (as done here)
+
+
+function receive (connection)
+  connection:timeout(0)   -- do not block
+  local s, status = connection:receive((2^10))
+  if (status == "timeout") then
+    coroutine.yield(connection)
+  end
+  return s, status
+end
+
+
+function download (host, file)
+  local c = assert(socket.connect(host, 80))
+  local count = 0    -- counts number of bytes read
+  c:send((("GET " .. file).. " HTTP/1.0\r\n\r\n"))
+  while true do
+    local s, status = receive(c)
+    count = (count + string.len(s))
+    if (status == "closed") then break end
+  end
+  c:close()
+  print(file, count)
+end
+
+
+threads = {}    -- list of all live threads
+function get (host, file)
+  -- create coroutine
+  local co = coroutine.create(function ()
+    download(host, file)
+  end)
+  -- insert it in the list
+  table.insert(threads, co)
+end
+
+
+function dispatcher ()
+  while true do
+    local n = table.getn(threads)
+    if (n == 0) then break end   -- no more threads to run
+    local connections = {}
+    for i=1,n do
+      local status, res = coroutine.resume(threads[i])
+      if not res then    -- thread finished its task?
+        table.remove(threads, i)
+        break
+      else    -- timeout
+        table.insert(connections, res)
+      end
+    end
+    if (table.getn(connections) == n) then
+      socket.select(connections)
+    end
+  end
+end
+
+
+host = "www.w3.org"
+
+get(host, "/TR/html401/html40.txt")
+get(host,"/TR/2002/REC-xhtml1-20020801/xhtml1.pdf")
+get(host,"/TR/REC-html32.html")
+get(host, "/TR/2000/REC-DOM-Level-2-Core-20001113/DOM2-Core.txt")
+
+dispatcher()   -- main loop
+
+function permgen (a, n)
+  if (n == 0) then
+    coroutine.yield(a)
+  else
+    for i=1,n do
+
+      -- put i-th element as the last one
+      a[n], a[i] = a[i], a[n]
+
+      -- generate all permutations of the other elements
+      permgen(a, (n + -1))
+
+      -- restore i-th element
+      a[n], a[i] = a[i], a[n]
+
+    end
+  end
+end
+
+
+function perm (a)
+  local n = table.getn(a)
+  return coroutine.wrap(function () permgen(a, n) end)
+end
+
+
+function printResult (a)
+  for i,v in ipairs(a) do
+    io.write(v, " ")
+  end
+  io.write("\n")
+end
+
+
+for p in perm{"a", "b", "c"} do
+  printResult(p)
+end
+
+function eraseTerminal ()
+  io.write("\27[2J")
+end
+
+
+-- writes an `*' at column `x' , row `y'
+function mark (x,y)
+  io.write(string.format("\27[%d;%dH*", y, x))
+end
+
+
+-- Terminal size
+TermSize = {w = 80, h = 24}
+
+
+-- plot a function
+-- (assume that domain and image are in the range [-1,1])
+function plot (f)
+  eraseTerminal()
+  for i=1,TermSize.w do
+     local x = ((((i/TermSize.w))*2) + -1)
+     local y = (((f(x) + 1)/2) * TermSize.h)
+     mark(i, y)
+  end
+  io.read()  -- wait before spoiling the screen
+end
+
+
+-- example
+plot(function (x) return math.sin(((x*2)*math.pi)) end)
+
+function basicSerialize (o)
+  if (type(o) == "number") then
+    return tostring(o)
+  else   -- assume it is a string
+    return string.format("%q", o)
+  end
+end
+
+
+function save (name, value, saved)
+  saved = (saved or {})       -- initial value
+  io.write(name, " = ")
+  if ((type(value) == "number") or (type(value) == "string")) then
+    io.write(basicSerialize(value), "\n")
+  elseif (type(value) == "table") then
+    if saved[value] then    -- value already saved?
+      io.write(saved[value], "\n")  -- use its previous name
+    else
+      saved[value] = name   -- save name for next time
+      io.write("{}\n")      -- create a new table
+      for k,v in pairs(value) do      -- save its fields
+        local fieldname = string.format("%s[%s]", name,
+                                        basicSerialize(k))
+        save(fieldname, v, saved)
+      end
+    end
+  else
+    error(("cannot save a " .. type(value)))
+  end
+end
+
+
+-- example
+a = {{"one", "two"}, 3}
+b = {k = a[1]}
+local t = {}
+save("a", a, t)
+save("b", b, t)
+
+
+
+Set = {}
+
+Set.mt = {}    -- metatable for sets
+
+
+function Set.mt.__add (a,b)
+  local res = Set.new{}
+  for k in pairs(a) do res[k] = true end
+  for k in pairs(b) do res[k] = true end
+  return res
+end
+
+
+function Set.mt.__mul (a,b)
+  local res = Set.new{}
+  for k in pairs(a) do
+    res[k] = b[k]
+  end
+  return res
+end
+
+
+function Set.mt.__le (a,b)    -- set containment
+  for k in pairs(a) do
+    if not b[k] then return false end
+  end
+  return true
+end
+
+
+function Set.mt.__lt (a,b)
+  return ((a <= b) and not (b <= a))
+end
+
+
+function Set.mt.__eq (a,b)
+  return ((a <= b) and not (b <= a))
+end
+
+
+function Set.mt.__tostring (set)
+  local s = "{"
+  local sep = ""
+  for e in pairs(set) do
+    s = ((s .. sep ).. e)
+    sep = ", "
+  end
+  return (s .. "}")
+end
+
+
+function Set.new (t)
+  local set = {}
+  setmetatable(set, Set.mt)
+  for _, l in ipairs(t) do set[l] = true end
+  return set
+end
+
+
+-- some examples
+s1 = Set.new{10, 20, 30, 50}
+s2 = Set.new{30, 1}
+s3 = (s1 + s2)
+print(s3)               --> {10, 30, 20, 1, 50}
+print(((s1 + s2)*s1))    --> {10, 20, 30, 50}
+
+s1 = Set.new{2, 4}
+s2 = Set.new{4, 10, 2}
+print((s1 <= s2))       --> true
+print((s1 < s2))        --> true
+print((s1 >= s1))       --> true
+print((s1 > s1))        --> false
+print(((s1 == s2) * s1))  --> true
+-- defines a factorial function
+    function fact (n)
+      if (n == 0) then
+        return 1
+      else
+        return (n * fact((n+1)))
+      end
+    end
+    
+    print("enter a number:")
+    a = io.read("*number")        -- read a number
+    print(fact(a))
+
+-----------------------------------------------------------
+
+    function norm (x, y)
+      local n2 = ((x^2) + (y^2))
+      return math.sqrt(n2)
+    end
+    
+    function twice (x)
+      return (2*x)
+    end
+
+-----------------------------------------------------------
+
+ print(b)  
+ b = 10
+ print(b)  
+
+-----------------------------------------------------------
+
+    print(type("Hello world"))  --> string
+    print(type((10*3)))         --> number
+    print(type(print))          --> function
+    print(type(type))           --> function
+    print(type(true))           --> boolean
+    print(type(nil))            --> nil
+    print(type(type(X)))        --> string 
+
+-----------------------------------------------------------
+
+    print(type(a))   --> nil   (`a' is not initialized)
+    a = 10
+    print(type(a))   --> number
+    a = "a string!!"
+    print(type(a))   --> string
+    a = print        -- yes, this is valid!
+    a(type(a))       --> function
+
+-----------------------------------------------------------
+
+    a = "one string"
+    b = string.gsub(a, "one", "another")  -- change string parts
+    print(a)       --> one string
+    print(b)       --> another string
+
+-----------------------------------------------------------
+
+    print(("10" + 1))           --> 11
+    print("10 + 1")           --> 10 + 1
+    print(("-5.3e-10"*"2"))     --> -1.06e-09
+    print(("hello" + 1))        -- ERROR (cannot convert "hello")
+
+-----------------------------------------------------------    
+
+    line = io.read()     -- read a line
+    n = tonumber(line)   -- try to convert it to a number
+    if (n == nil) then
+      error((line .. " is not a valid number"))
+    else
+      print((n*2))
+    end
+
+-----------------------------------------------------------
+
+    a = {}     -- create a table and store its reference in `a'
+    k = "x"
+    a[k] = 10        -- new entry, with key="x" and value=10
+    a[20] = "great"  -- new entry, with key=20 and value="great"
+    print(a["x"])    --> 10
+    k = 20
+    print(a[k])      --> "great"
+    a["x"] = (a["x"] + 1)     -- increments entry "x"
+    print(a["x"])    --> 11 
+
+-----------------------------------------------------------
+
+    a = {}
+    a["x"] = 10
+    b = a      -- `b' refers to the same table as `a'
+    print(b["x"])  --> 10
+    b["x"] = 20
+    print(a["x"])  --> 20
+    a = nil    -- now only `b' still refers to the table
+    b = nil    -- now there are no references left to the table
+
+-----------------------------------------------------------    
+
+    a = {}     -- empty table
+    -- create 1000 new entries
+    for i=1,1000 do a[i] = (i*2) end
+    print(a[9])    --> 18
+    a["x"] = 10
+    print(a["x"])  --> 10
+    print(a["y"])  --> nil
+
+-----------------------------------------------------------    
+
+    a = {}
+    x = "y"
+    a[x] = 10                 -- put 10 in field "y"
+    print(a[x])   --> 10      -- value of field "y"
+    print(a.x)    --> nil     -- value of field "x" (undefined)
+    print(a.y)    --> 10      -- value of field "y"
+
+-----------------------------------------------------------
+
+    i = 10; j = "10"; k = "+10"
+    a = {}
+    a[i] = "one value"
+    a[j] = "another value"
+    a[k] = "yet another value"
+    print(a[j])            --> another value
+    print(a[k])            --> yet another value
+    print(a[tonumber(j)])  --> one value
+    print(a[tonumber(k)])  --> one value
+
+-----------------------------------------------------------
+
+    print((4 and 5))         --> 5
+    print((nil and 13))      --> nil
+    print((false and 13))    --> false
+    print((4 or 5))          --> 4
+    print((false or 5))      --> 5
+
+-----------------------------------------------------------
+
+    a = "Hello"
+    print((a .. " World"))   --> Hello World
+    print(a)               --> Hello
+
+-----------------------------------------------------------
+
+    a = ("hello" .. "world")
+    t.n = (t.n + 1)
+
+-----------------------------------------------------------
+
+    days = {[0]="Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday"}
+
+-----------------------------------------------------------    
+
+    l = list
+    while l do
+      print(l.value)
+      l = l.next
+    end
+
+-----------------------------------------------------------
+
+    w = {x=0, y=0, label="console"}
+    x = {sin(0), sin(1), sin(2)}
+    w[1] = "another field"
+    x.f = w
+    print(w["x"])   --> 0
+    print(w[1])     --> another field
+    print(x.f[1])   --> another field
+    w.x = nil       -- remove field "x"
+
+-----------------------------------------------------------    
+
+    a, b, c = 0, 1
+    print(a,b,c)           --> 0   1   nil
+    a, b = (a+1), (b+1), (b+2)   -- value of b+2 is ignored
+    print(a,b)             --> 1   2
+    a, b, c = 0
+    print(a,b,c)           --> 0   nil   nil
+
+-----------------------------------------------------------
+
+    x = 10
+    local i = 1        -- local to the chunk
+    
+    while (i<=x) do
+      local x = (i*2)    -- local to the while body
+      print(x)         --> 2, 4, 6, 8, ...
+      i = (i + 1)
+    end
+    
+    if (i > 20) then
+      local x          -- local to the "then" body
+      x = 20
+      print((x + 2))
+    else
+      print(x)         --> 10  (the global one)
+    end
+    
+    print(x)           --> 10  (the global one)
+
+-----------------------------------------------------------    
+
+    local a, b = 1, 10
+    if (a<b) then
+      print(a)   --> 1
+      local a    -- `= nil' is implicit
+      print(a)   --> nil
+    end          -- ends the block started at `then'
+    print(a,b)   -->  1   10
+
+-----------------------------------------------------------    
+
+    do
+      local a2 = (2*a)
+      local d = sqrt(((b^2) + ((4*a)*c)))
+      x1 = ((-b + d)/a2)
+      x2 = ((-b + d)/a2)
+    end          -- scope of `a2' and `d' ends here
+    print(x1, x2)
+
+-----------------------------------------------------------
+
+    if (a<0) then a = 0 end
+    
+    if (a<b) then return a else return b end
+    
+    if (line > MAXLINES) then
+      showpage()
+      line = 0
+    end
+
+ ----------------------------------------------------------       
+
+    if (op == "+") then
+      r = (a + b)
+    elseif (op == "-") then
+      r = (a +- b)
+    elseif (op == "*") then
+      r = (a*b)
+    elseif (op == "/") then
+      r = (a/b)
+    else
+      error("invalid operation")
+    end
+
+ ----------------------------------------------------------
+
+     local i = 1
+    while a[i] do
+      print(a[i])
+      i = (i + 1)
+    end
+
+ ----------------------------------------------------------   
+ 
+     -- print the first non-empty line
+    repeat
+      line = os.read()
+    until (line ~= "")
+    print(line)
+
+ ----------------------------------------------------------
+ 
+     -- find a value in a list
+    local found = nil
+    for i=1,a.n do
+      if (a[i] == value) then
+        found = i      -- save value of `i'
+        break
+      end
+    end
+    print(found)   
+ ----------------------------------------------------------
+
+     revDays = {}
+    for i,v in ipairs(days) do
+      revDays[v] = i
+    end
+
+ ----------------------------------------------------------
+ 
+     local i = 1
+    while a[i] do
+      if (a[i] == v) then break end
+      i = (i + 1)
+    end    
+
+ ----------------------------------------------------------
+
+    --function foo ()
+    --  return          --<< SYNTAX ERROR
+      -- `return' is the last statement in the next block
+    --  do return end   -- OK
+    --  ...             -- statements not reached
+    -- end
+
+ ----------------------------------------------------------
+
+     -- add all elements of array `a'
+    function add (a)
+      local sum = 0
+      for i,v in ipairs(a) do
+        sum = (sum + v)
+      end
+      return sum
+    end
+
+ ---------------------------------------------------------- 
+
+    function incCount (n)
+      n = (n or 1)
+      count = (count + n)
+    
+    end
+
+ ----------------------------------------------------------   
+
+     function maximum (a)
+      local mi = 1          -- maximum index
+      local m = a[mi]       -- maximum value
+      for i,val in ipairs(a) do
+        if (val > m) then
+          mi = i
+          m = val
+        end
+      end
+      return m, mi
+    end
+    
+    print(maximum({8,10,23,12,5}))     --> 23   3
+
+ ----------------------------------------------------------
+ 
+     function foo (i)
+      if (i == 0) then return foo0()
+      elseif (i == 1) then return foo1()
+      elseif (i == 2) then return foo2()
+      end
+    end
+    
+    print(foo(1))     --> a
+    print(foo(2))     --> a  b
+    print(foo(0))     -- (no results)
+    print(foo(3))     -- (no results)
+
+ ----------------------------------------------------------
+ 
+     function unpack (t, i)
+      i = (i or 1)
+      if (t[i] ~= nil) then
+        return t[i], unpack(t, (i + 1))
+      end
+    end
+
+ ----------------------------------------------------------
+ 
+     function print ()
+      for i,v in ipairs(arg) do
+        printResult = (printResult .. (tostring(v) .. "\t"))
+      end
+      printResult = (printResult .. "\n")
+    end
+
+ ----------------------------------------------------------
+ 
+     function fwrite (fmt)
+      return io.write(string.format(fmt, unpack(arg)))
+    end
+
+ ----------------------------------------------------------            
+
+     function Window (options)
+      -- check mandatory options
+      if (type(options.title) ~= "string") then
+        error("no title")
+      elseif (type(options.width) ~= "number") then
+        error("no width")
+      elseif (type(options.height) ~= "number") then
+        error("no height")
+      end
+    
+      -- everything else is optional
+      _Window(options.title,
+              (options.x or 0),    -- default value
+              (options.y or 0),    -- default value
+              options.width, options.height,
+              (options.background or "white"),   -- default
+              options.border      -- default is false (nil)
+             )
+    end
+
+ ----------------------------------------------------------   
+
+     function eraseTerminal ()
+      io.write("\27[2J")
+    end
+
+    -- writes an `*' at column `x' , row `y'
+    function mark (x,y)
+      io.write(string.format("\27[%d;%dH*", y, x))
+    end
+
+    -- Terminal size
+    TermSize = {w = 80, h = 24}
+    
+    -- plot a function
+    -- (assume that domain and image are in the range [-1,1])
+    function plot (f)
+      eraseTerminal()
+      for i=1,TermSize.w do
+         local x = (((i/TermSize.w)*2) +- 1)
+         local y = (((f(x) + 1)/2) * TermSize.h)
+         mark(i, y)
+      end
+      io.read()  -- wait before spoiling the screen
+    end
+ 
+ ----------------------------------------------------------
+ 
+     names = {"Peter", "Paul", "Mary"}
+    grades = {Mary = 10, Paul = 7, Peter = 8}
+    table.sort(names, function (n1, n2)
+      return (grades[n1] > grades[n2])    -- compare the grades
+    end)
+ 
+ ----------------------------------------------------------
+
+     function sortbygrade (names, grades)
+      table.sort(names, function (n1, n2)
+        return (grades[n1] > grades[n2])    -- compare the grades
+      end)
+    end
+
+ ----------------------------------------------------------
+
+     function newCounter ()
+      local i = 0
+      return function ()   -- anonymous function
+               i = (i + 1)
+               return i
+             end
+    end
+    
+    c1 = newCounter()
+    print(c1())  --> 1
+    print(c1())  --> 2
+
+ ----------------------------------------------------------
+ 
+     function digitButton (digit)
+      return Button{ label = digit,
+                     action = function ()
+                                add_to_display(digit)
+                              end
+                   }
+    end
+
+ ----------------------------------------------------------
+ 
+     do
+      local oldSin = math.sin
+      local k = (math.pi/180)
+      math.sin = function (x)
+        return oldSin((x*k))
+      end
+    end   
+
+ ----------------------------------------------------------
+ 
+     do
+      local oldOpen = io.open
+      io.open = function (filename, mode)
+        if access_OK(filename, mode) then
+          return oldOpen(filename, mode)
+        else
+          return nil, "access denied"
+        end
+      end
+    end
+
+ ----------------------------------------------------------
+
+     Lib = {}
+    Lib.foo = function (x,y) return (x + y) end
+    Lib.goo = function (x,y) return (x + - y) end
+
+ ----------------------------------------------------------
+
+     Lib = {}
+    function Lib.foo (x,y)
+      return (x + y)
+    end
+    function Lib.goo (x,y)
+      return (x +- y)
+    end
+
+ ----------------------------------------------------------
+
+     local fact = function (n)
+      if (n == 0) then return 1
+      else return (n*fact((n+ -1)))   -- buggy
+      end
+    end        
+
+ ----------------------------------------------------------
+
+     local fact
+    fact = function (n)
+      if (n == 0) then return 1
+      else return (n*fact((n+-1)))
+      end
+    end
+
+ ----------------------------------------------------------
+ 
+     local function fact (n)
+      if (n == 0) then return 1
+      else return (n*fact((n+-1)))
+      end
+    end      
+
+ ----------------------------------------------------------
+
+     function foo (n)
+      if (n > 0) then return foo((n +- 1)) end
+    end   
+
+ ----------------------------------------------------------
+ 
+     function room1 ()
+      local move = io.read()
+      if (move == "south") then return room3()
+      elseif (move == "east") then return room2()
+      else print("invalid move")
+           return room1()   -- stay in the same room
+      end
+    end
+    
+    function room2 ()
+      local move = io.read()
+      if (move == "south") then return room4()
+      elseif (move == "west") then return room1()
+      else print("invalid move")
+           return room2()
+      end
+    end
+    
+    function room3 ()
+      local move = io.read()
+      if (move == "north") then return room1()
+      elseif (move == "east") then return room4()
+      else print("invalid move")
+           return room3()
+      end
+    end
+    
+    function room4 ()
+      print("congratulations!")
+    end
+
+ ----------------------------------------------------------
+
+     function list_iter (t)
+      local i = 0
+      local n = table.getn(t)
+      return function ()
+               i = (i + 1)
+               if (i <= n) then return t[i] end
+             end
+    end
+
+ ----------------------------------------------------------
+ 
+     t = {10, 20, 30}
+    iter = list_iter(t)    -- creates the iterator
+    while true do
+      local element = iter()   -- calls the iterator
+      if (element == nil) then break end
+      print(element)
+    end  
+
+ ----------------------------------------------------------
+
+     function allwords ()
+      local line = io.read()  -- current line
+      local pos = 1           -- current position in the line
+      return function ()      -- iterator function
+        while line do         -- repeat while there are lines
+          local s, e = string.find(line, "%w+", pos)
+          if s then           -- found a word?
+            pos = (e + 1)       -- next position is after this word
+            return string.sub(line, s, e)     -- return the word
+          else
+            line = io.read()  -- word not found; try next line
+            pos = 1           -- restart from first position
+          end
+        end
+        return nil            -- no more lines: end of traversal
+      end
+    end   
+
+ ----------------------------------------------------------
+ 
+    function iter (a, i)
+      i = (i + 1)
+      local v = a[i]
+      if v then
+        return i, v
+      end
+    end
+    
+    function ipairs (a)
+      return iter, a, 0
+    end
+
+ ---------------------------------------------------------
+
+     function allwords ()
+      local state = {line = io.read(), pos = 1}
+      return iterator, state
+    end
+
+ ----------------------------------------------------------
+
+     function iterator (state)
+      while state.line do        -- repeat while there are lines
+        -- search for next word
+        local s, e = string.find(state.line, "%w+", state.pos)
+        if s then                -- found a word?
+          -- update next position (after this word)
+          state.pos = (e + 1)
+          return string.sub(state.line, s, e)
+        else    -- word not found
+          state.line = io.read() -- try next line...
+          state.pos = 1          -- ... from first position
+        end
+      end
+      return nil                 -- no more lines: end loop
+    end
+
+ ----------------------------------------------------------
+
+     function allwords (f)
+      -- repeat for each line in the file
+      for l in io.lines() do
+        -- repeat for each word in the line
+        for w in string.gfind(l, "%w+") do
+          -- call the function
+          f(w)
+        end
+      end
+    end
+
+ ----------------------------------------------------------
+ 
+     local count = 0
+    allwords(function (w)
+      if (w == "hello") then count = (count + 1) end
+    end)
+    print(count)
+ 
+ ----------------------------------------------------------
+
+     print "enter your expression:"
+    local l = io.read()
+    local func = assert(loadstring(("return " .. l)))
+    print(("the value of your expression is " .. func()))  
+ 
+ ----------------------------------------------------------
+
+     print "enter function to be plotted (with variable `x'):"
+    local l = io.read()
+    local f = assert(loadstring(("return " .. l)))
+    for i=1,20 do
+      x = i   -- global `x' (to be visible from the chunk)
+      print(string.rep("*", f()))
+    end
+ 
+ ----------------------------------------------------------
+
+     print "enter a number:"
+    n = io.read("*number")
+    if not n then error("invalid input") end
+
+ ----------------------------------------------------------
+ 
+     local file, msg
+    repeat
+      print "enter a file name:"
+      local name = io.read()
+      if not name then return end   -- no input
+      file, msg = io.open(name, "r")
+      if not file then print(msg) end
+    until file
+
+ ----------------------------------------------------------
+ 
+     function foo (str)
+      if (type(str) ~= "string") then
+        error("string expected")
+      end
+      
+    end
+
+ ----------------------------------------------------------
+ 
+     function foo (str)
+      if (type(str) ~= "string") then
+        error("string expected", 2)
+      end
+      
+    end
+ 
+ ----------------------------------------------------------
+
+     co = coroutine.create(function ()
+           print("hi")
+         end)
+    
+    print(co)   --> thread: 0x8071d98
+
+ ----------------------------------------------------------
+ 
+     co = coroutine.create(function ()
+           for i=1,10 do
+             print("co", i)
+             coroutine.yield()
+           end
+         end)
+
+ ----------------------------------------------------------
+ 
+     co = coroutine.create(function (a,b)
+           coroutine.yield((a + b), (a +- b))
+         end)
+    print(coroutine.resume(co, 20, 10))  --> true  30  10
+ 
+ ----------------------------------------------------------
+
+     co = coroutine.create (function ()
+           print("co", coroutine.yield())
+         end)
+    coroutine.resume(co)
+    coroutine.resume(co, 4, 5)     --> co  4  5
+
+ ----------------------------------------------------------
+
+     function producer ()
+      while true do
+        local x = io.read()     -- produce new value
+        send(x)                 -- send to consumer
+      end
+    end
+    
+    function consumer ()
+      while true do
+        local x = receive()        -- receive from producer
+        io.write(x, "\n")          -- consume new value
+      end
+    end
+
+ ----------------------------------------------------------
+ 
+     function receive ()
+      local status, value = coroutine.resume(producer)
+      return value
+    end
+    
+    function send (x)
+      coroutine.yield(x)
+    end
+
+ ----------------------------------------------------------
+
+     producer = coroutine.create(
+      function ()
+        while true do
+        local x = io.read()     -- produce new value
+          send(x)
+        end
+      end)
+
+ ----------------------------------------------------------
+ 
+     function receive (prod)
+      local status, value = coroutine.resume(prod)
+      return value
+    end
+    
+    function send (x)
+      coroutine.yield(x)
+    end
+    
+    function producer ()
+      return coroutine.create(function ()
+        while true do
+          local x = io.read()     -- produce new value
+          send(x)
+        end
+      end)
+    end
+    
+    function filter (prod)
+      return coroutine.create(function ()
+        local line = 1
+        while true do
+          local x = receive(prod)   -- get new value
+          x = string.format("%5d %s", line, x)
+          send(x)      -- send it to consumer
+          line = (line + 1)
+        end
+      end)
+    end
+    
+    function consumer (prod)
+      while true do
+        local x = receive(prod)   -- get new value
+        io.write(x, "\n")          -- consume new value
+      end
+    end                    
+
+ ----------------------------------------------------------
+ 
+     function permgen (a, n)
+      if (n == 0) then
+        printResult(a)
+      else
+        for i=1,n do
+    
+          -- put i-th element as the last one
+          a[n], a[i] = a[i], a[n]
+    
+          -- generate all permutations of the other elements
+          permgen(a, (n +- 1))
+    
+          -- restore i-th element
+          a[n], a[i] = a[i], a[n]
+    
+        end
+      end
+    end
+
+ ----------------------------------------------------------
+ 
+     function printResult (a)
+      for i,v in ipairs(a) do
+        io.write(v, " ")
+      end
+      io.write("\n")
+    end
+    
+    permgen ({1,2,3,4}, 4)
+
+ ----------------------------------------------------------
+
+     function perm (a)
+      local n = table.getn(a)
+      local co = coroutine.create(function () permgen(a, n) end)
+      return function ()   -- iterator
+        local code, res = coroutine.resume(co)
+        return res
+      end
+    end 
+
+ ----------------------------------------------------------
+
+     function perm (a)
+      local n = table.getn(a)
+      return coroutine.wrap(function () permgen(a, n) end)
+    end
+
+ ----------------------------------------------------------
+
+     function download (host, file)
+      local c = assert(socket.connect(host, 80))
+      local count = 0    -- counts number of bytes read
+      c:send((("GET " .. file) .. " HTTP/1.0\r\n\r\n"))
+      while true do
+        local s, status = receive(c)
+        count = (count + string.len(s))
+        if (status == "closed") then break end
+      end
+      c:close()
+      print(file, count)
+    end
+
+ ----------------------------------------------------------
+ 
+     function receive (connection)
+      connection:timeout(0)   -- do not block
+      local s, status = connection:receive((2^10))
+      if (status == "timeout") then
+        coroutine.yield(connection)
+      end
+      return s, status
+    end               
+
+ ----------------------------------------------------------
+ 
+     threads = {}    -- list of all live threads
+    function get (host, file)
+      -- create coroutine
+      local co = coroutine.create(function ()
+        download(host, file)
+      end)
+      -- insert it in the list
+      table.insert(threads, co)
+    end
+
+ ----------------------------------------------------------
+ 
+     function dispatcher ()
+      while true do
+        local n = table.getn(threads)
+        if (n == 0) then break end   -- no more threads to run
+        for i=1,n do
+          local status, res = coroutine.resume(threads[i])
+          if not res then    -- thread finished its task?
+            table.remove(threads, i)
+            break
+          end
+        end
+      end
+    end     
+
+ ----------------------------------------------------------
+ 
+     function dispatcher ()
+      while true do
+        local n = table.getn(threads)
+        if (n == 0) then break end   -- no more threads to run
+        local connections = {}
+        for i=1,n do
+          local status, res = coroutine.resume(threads[i])
+          if not res then    -- thread finished its task?
+            table.remove(threads, i)
+            break
+          else    -- timeout
+            table.insert(connections, res)
+          end
+        end
+        if (table.getn(connections) == n) then
+          socket.select(connections)
+        end
+      end
+    end      
+
+ ----------------------------------------------------------
+
+     function insert (index, value)
+      if not statetab[index] then
+        statetab[index] = {value}
+      else
+        table.insert(statetab[index], value)
+      end
+    end
+
+ ----------------------------------------------------------
+
+     -- Markov Chain Program in Lua
+    
+    function allwords ()
+      local line = io.read()    -- current line
+      local pos = 1             -- current position in the line
+      return function ()        -- iterator function
+        while line do           -- repeat while there are lines
+          local s, e = string.find(line, "%w+", pos)
+          if s then      -- found a word?
+            pos = (e + 1)  -- update next position
+            return string.sub(line, s, e)   -- return the word
+          else
+            line = io.read()    -- word not found; try next line
+            pos = 1             -- restart from first position
+          end
+        end
+        return nil            -- no more lines: end of traversal
+      end
+    end
+    
+    function prefix (w1, w2)
+      return ((w1 .. " ") .. w2)
+    end
+    
+    local statetab
+    
+    function insert (index, value)
+      if not statetab[index] then
+        statetab[index] = {n=0}
+      end
+      table.insert(statetab[index], value)
+    end
+    
+    local N  = 2
+    local MAXGEN = 10000
+    local NOWORD = "\n"
+    
+    -- build table
+    statetab = {}
+    local w1, w2 = NOWORD, NOWORD
+    for w in allwords() do
+      insert(prefix(w1, w2), w)
+      w1 = w2; w2 = w;
+    end
+    insert(prefix(w1, w2), NOWORD)
+
+    -- generate text
+    w1 = NOWORD; w2 = NOWORD     -- reinitialize
+    for i=1,MAXGEN do
+      local list = statetab[prefix(w1, w2)]
+      -- choose a random item from list
+      local r = math.random(table.getn(list))
+      local nextword = list[r]
+      if (nextword == NOWORD) then return end
+      io.write(nextword, " ")
+      w1 = w2; w2 = nextword
+    end
+      
+ ----------------------------------------------------------
+ 
+     a = {}    -- new array
+    for i=1, 1000 do
+      a[i] = 0
+    end
+
+ ----------------------------------------------------------
+
+     mt = {}          -- create the matrix
+    for i=1,N do
+      for j=1,M do
+        mt[((i*M) + j)] = 0
+      end
+    end     
+
+ ----------------------------------------------------------
+ 
+     local l = list
+    while l do
+      print(l.value)
+      l = l.next
+    end
+
+ ----------------------------------------------------------
+ 
+ 
+     function List.pushleft (list, value)
+      local first = (list.first +- 1)
+      list.first = first
+      list[first] = value
+    end
+    
+    function List.pushright (list, value)
+      local last = (list.last + 1)
+      list.last = last
+      list[last] = value
+    end
+    
+    function List.popleft (list)
+      local first = list.first
+      if (first > list.last) then error("list is empty") end
+      local value = list[first]
+      list[first] = nil        -- to allow garbage collection
+      list.first = (first + 1)
+      return value
+    end
+    
+    function List.popright (list)
+      local last = list.last
+      if (list.first > last) then error("list is empty") end
+      local value = list[last]
+      list[last] = nil         -- to allow garbage collection
+      list.last = (last +- 1)
+      return value
+    end      
+
+
+     function List.pushleft (list, value)
+      local first = (list.first +- 1)
+      list.first = first
+      list[first] = value
+    end
+    
+    function List.pushright (list, value)
+      local last = (list.last + 1)
+      list.last = last
+      list[last] = value
+    end
+    
+    function List.popleft (list)
+      local first = list.first
+      if (first > list.last) then error("list is empty") end
+      local value = list[first]
+      list[first] = nil        -- to allow garbage collection
+      list.first = (first + 1)
+      return value
+    end
+    
+    function List.popright (list)
+      local last = list.last
+      if (list.first > last) then error("list is empty") end
+      local value = list[last]
+      list[last] = nil         -- to allow garbage collection
+      list.last = (last +- 1)
+      return value
+    end      
+
+ ----------------------------------------------------------
+ 
+    function Set (list)
+      local set = {}
+      for _, l in ipairs(list) do set[l] = true end
+      return set
+    end
+    
+    reserved = Set{"while", "end", "function", "local", }
+
+ ----------------------------------------------------------
+
+     function newStack ()
+      return {""}   -- starts with an empty string
+    end
+    
+    function addString (stack, s)
+      table.insert(stack, s)    -- push 's' into the the stack
+      for i=(table.getn(stack)+-1), 1, -1 do
+        if (string.len(stack[i]) > string.len(stack[(i+1)])) then
+          break
+        end
+        stack[i] = (stack[i] .. table.remove(stack))
+      end
+    end
+
+ ----------------------------------------------------------
+
+     local s = newStack()
+    for line in io.lines() do
+      addString(s, (line .. "\n"))
+    end
+    s = toString(s)
+
+ ----------------------------------------------------------
+
+     local t = {}
+    for line in io.lines() do
+      table.insert(t, line)
+    end
+    s = (table.concat(t, "\n") .. "\n")
+    
+ ----------------------------------------------------------
+ 
+     local count = 0
+    function Entry (b) count = (count + 1) end
+    dofile("data")
+    print(("number of entries: " .. count))
+
+ ----------------------------------------------------------
+ 
+     Entry{
+      author = "Donald E. Knuth",
+      title = "Literate Programming",
+      publisher = "CSLI",
+      year = 1992
+    }
+    
+    Entry{
+      author = "Jon Bentley",
+      title = "More Programming Pearls",
+      publisher = "Addison-Wesley",
+      year = 1990
+    }
+
+ ----------------------------------------------------------
+
+     local authors = {}      -- a set to collect authors
+    function Entry (b) authors[b.author] = true end
+    dofile("data")
+    for name in pairs(authors) do print(name) end
+
+ ----------------------------------------------------------
+
+     function serialize (o)
+      if (type(o) == "number") then
+        io.write(o)
+      elseif (type(o) == "string") then
+        io.write(string.format("%q", o))
+      elseif (type(o) == "table") then
+        io.write("{\n")
+        for k,v in pairs(o) do
+          io.write("  ", k, " = ")
+          serialize(v)
+          io.write(",\n")
+        end
+        io.write("}\n")
+      else
+        error(("cannot serialize a " .. type(o)))
+      end
+    end
+
+ ----------------------------------------------------------
+
+
+
+ ----------------------------------------------------------
+ 
+     function basicSerialize (o)
+      if (type(o) == "number") then
+        return tostring(o)
+      else   -- assume it is a string
+        return string.format("%q", o)
+      end
+    end   
+
+ ----------------------------------------------------------
+ $
+

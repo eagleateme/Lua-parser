@@ -1,0 +1,68 @@
+LUA PARSER
+
+Requirements:
+Understanding of LR automata to iterpret lua.output file
+
+Note:
+symbol table considers only user defined functions as the others are already assumed to be designed and for now it takes them as identifiers
+Expressions of type exp op exp should be given in (exp op exp)s
+
+
+
+Usage:
+When Running for the first time,compile using the below stated commands in the terminal in case of usage in ubuntu or cmd in Windows
+flex  -l  lua.l
+bison -vd  lua.y
+gcc lex.yy.c lua.tab.c -o out
+load (in) the file in the folder with the test code that you want to check.
+run it using ./out command
+
+Interpretation of the output:
+lua.output file can be used to see default action chosen in case of conflicts.
+The output first displays all the tokens and then displays the Symbol table only on successfull parsing otherwise an error message is displayed which is self explainable. 
+
+Note: $ is used as the end of the file marker
+
+Debugging Help:
+
+Functions:
+
+void LibFuc();
+"""This Function loads the system defined functions into the symbol table"""
+
+int Search_Symbol(char* str)
+""" This Function searches for the identifier with the given name and returns 1 if it's found else 0,the input to the function is a string"""
+
+int yywrap();
+""" Function yywrap is called by lex when input is exhausted. Return 1 if you are done or 0 if more processing is required. """
+
+int yyerror(char* str);
+"""This Function returns 1 on encountering an error while parsing and also displays the error"""
+
+int yylex();
+"""The lexical analyzer function, yylex , recognizes tokens from the input stream and returns them to the parser """
+
+int yyparse();
+"""This function reads tokens, executes actions, and ultimately returns when it encounters end-of-input or an unrecoverable syntax error"""
+
+
+Structures:
+
+snippet of code:
+
+typedef struct node
+{
+	char name[50];
+	int type;
+    int col;
+    int row;
+    int scope;
+}sym_tab;
+
+This data structure has been used to define a single entry into the symbol table and contains
+type: it stores 1 if it's a function and 0 if it's an identifier
+col : column number of the stored identifier.
+row : row number of the stored identifier.
+scope : it stores 0 if it is a Global Variable otherwise stores 1 to indicate that it is a local variable.
+
+NOTE: Limitations of the parser have been documented in the analysis report,so in order to avoid redundancy ,it has been omitted.
